@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 // import localFont from "next/font/local";
 import "./globals.css";
 
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        className="px-6"
+        className="flex flex-col items-center px-6 w-screen h-dvh"
       >
         {children}
       </body>
