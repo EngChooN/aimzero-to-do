@@ -73,7 +73,7 @@ export default function Home() {
           {searchHistory.length > 0 && isFocusSearchBar === true ? (
             <ul className="absolute top-0 left-0 w-full pt-12 pb-2 bg-slate-100 text-slate-700
               shadow-md rounded-3xl overflow-hidden">
-              {searchHistory.map((history, index) => (
+              {searchHistory.slice(0, 5).map((history, index) => (
                 <div key={index} className="relative px-12 hover:bg-slate-200">
                   <li className="flex items-center h-12"
                     onClick={() => clickSearchHistory(history)}>{history}
