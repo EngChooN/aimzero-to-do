@@ -1,6 +1,6 @@
 'use client'
 
-import { bgColorPalette } from "@/constants/bgColorPalette"
+// import { bgColorPalette } from "@/constants/bgColorPalette"
 import { useOutSideClick } from "@/hooks/useOutSideClick"
 import { useEffect, useRef, useState } from "react"
 import { IoSettingsSharp } from "react-icons/io5"
@@ -9,6 +9,40 @@ import SettingContentWrapper from "./SettingContentWrapper/SettingContentWrapper
 export default function Setting() {
   const [isSetting, setIsSetting] = useState(false)
   const settingRef = useRef<HTMLDivElement>(null)
+  const bgColorPalette = [
+  {
+    color: 'default',
+    label: 'default',
+  },
+  {
+    color: 'bg-red-500',
+    label: 'red',
+  },
+  {
+    color: 'bg-orange-500',
+    label: 'orange',
+  },
+  {
+    color: 'bg-yellow-500',
+    label: 'yellow',
+  },
+  {
+    color: 'bg-green-500',
+    label: 'green',
+  },
+  {
+    color: 'bg-blue-500',
+    label: 'blue',
+  },
+  {
+    color: 'bg-indigo-500',
+    label: 'indigo',
+  },
+  {
+    color: 'bg-purple-500',
+    label: 'purple',
+  },
+]
 
   const setBgColor = (color: string) => {
     localStorage.setItem('bg-color', color)
