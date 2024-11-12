@@ -2,7 +2,7 @@
 
 import { useOutSideClick } from "@/hooks/useOutSideClick"
 import { useEffect, useRef, useState } from "react"
-import { IoSearchOutline, IoCloseOutline } from "react-icons/io5"
+import { IoSearchOutline, IoCloseOutline, IoTimerOutline } from "react-icons/io5"
 
 export default function SearchInput() {
   const [searchValue, setSearchValue] = useState<string>('')
@@ -44,9 +44,9 @@ export default function SearchInput() {
   
   return (
     <article className="relative w-full flex justify-center" ref={searchAreaRef}>
-      <IoSearchOutline className="absolute top-1/3 left-5 text-lg text-slate-700 z-20" />
+      <IoSearchOutline className="absolute top-1/3 left-6 text-lg text-slate-700 z-20" />
       <input
-        className={`w-full h-12 rounded-3xl px-12 bg-slate-100 text-slate-700 ${!isFocusSearchBar || (isFocusSearchBar && searchHistory.length === 0) ? 'shadow-md' : ''} focus:outline-none z-10`}
+        className={`m-[6px] w-full h-12 backdrop-blur-xl rounded-3xl px-12 bg-slate-100/80 text-slate-700 ${!isFocusSearchBar || (isFocusSearchBar && searchHistory.length === 0) ? 'shadow-md' : ''} focus:outline-none z-10`}
         value={searchValue}
         onChange={(event) => setSearchValue(event.target.value)}
         onCompositionStart={() => setIsComposition(false)}
@@ -57,20 +57,21 @@ export default function SearchInput() {
       />
       {searchValue && (
         <IoCloseOutline
-          className="absolute top-1/3 right-5 text-lg text-slate-700 cursor-pointer z-20"
+          className="absolute top-1/3 right-6 text-lg text-slate-700 cursor-pointer z-20"
           onClick={() => setSearchValue('')}
         />
       )}
       {searchHistory.length > 0 && isFocusSearchBar === true ? (
-        <ul className="absolute top-0 left-0 w-full pt-12 pb-2 bg-slate-100 text-slate-700
-          shadow-md rounded-3xl overflow-hidden">
+        <ul className="absolute top-0 left-0 w-full pt-14 pb-2 backdrop-blur-xl bg-slate-200/70 text-slate-700
+          shadow-md rounded-[28px] overflow-hidden">
           {searchHistory.slice(0, 5).map((history, index) => (
-            <div key={index} className="relative px-12 hover:bg-slate-200">
+            <div key={index} className="relative px-14 hover:bg-slate-200/30">
+              <IoTimerOutline className="absolute top-1/3 left-6 text-lg text-slate-700 z-20" />
               <li className="flex items-center h-12"
                 onClick={() => clickSearchHistory(history)}>{history}
               </li>
               <IoCloseOutline
-                className="absolute top-1/3 right-5 text-lg text-slate-700 cursor-pointer z-20"
+                className="absolute top-1/3 right-6 text-lg text-slate-700 cursor-pointer z-20"
                 onClick={() => deleteHistory(index)}
               />
             </div>
