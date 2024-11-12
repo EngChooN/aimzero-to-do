@@ -62,7 +62,7 @@ export default function Setting() {
     <div className="relative" ref={settingRef}>
       <IoSettingsSharp className="text-3xl cursor-pointer" onClick={() => setIsSetting((prev) => !prev)} />
       {isSetting && (
-        <article className="gap-3 absolute p-4 right-0 top-10 flex flex-col w-96 h-96 shadow-md rounded-3xl backdrop-blur-xl bg-slate-200/40 z-30">
+        <article className="gap-3 absolute p-4 right-0 top-10 flex flex-col max-w-[351px] h-96 shadow-md rounded-3xl backdrop-blur-xl bg-slate-200/40 z-30">
           <SettingContentWrapper>
             {bgColorPalette.map((color, index) => (
                 <div className={`flex-shrink-0 size-9 rounded-full flex justify-center items-center mr-3 ${color.color === 'default' ? 'bg-slate-300' : color.color}`} key={index} onClick={() => setBgColor(color.color)} />
