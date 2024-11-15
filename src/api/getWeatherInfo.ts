@@ -41,6 +41,8 @@ export interface IWeatherInfo {
 }
 
 export const getWeatherInfo = async () => {
+  if (typeof window === 'undefined') return
+
   const myPosition = {
     lat: 0,
     lon: 0,
