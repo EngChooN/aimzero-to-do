@@ -3,8 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ['openweathermap.org'],
+    remotePatterns: [
+      {
+        hostname: 'openweathermap.org'
+      }
+    ]
   },
+
 };
 
 export default nextConfig;
