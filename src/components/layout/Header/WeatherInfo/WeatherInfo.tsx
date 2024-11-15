@@ -7,14 +7,18 @@ import { useEffect, useState } from "react"
 export default function WeatherInfo() {
   const [weatherInfo, setWeatherInfo] = useState<IWeatherInfo | null>(null)
 
-  console.log(weatherInfo)
-
   useEffect(() => {
     const fetchWeather = async () => {
       const data = await getWeatherInfo()
       setWeatherInfo(data)
     }
     fetchWeather()
+
+    const interval = setInterval(async () => {
+    fetchWeather()
+    }, 60000)
+
+    return () => clearInterval(interval)
   }, [])
   
   return (
@@ -28,7 +32,7 @@ export default function WeatherInfo() {
             height={56}
           />
           <p className="mr-2">{weatherInfo.name}</p>
-          <p>{weatherInfo.main.temp}</p>
+          <p>{Math.round(weatherInfo.main.temp)}°C</p>
         </div>
       ) : (
         <p className="after:content-['.'] after:inline-block after:animate-[dots_1.5s_steps(4,end)_infinite] after:w-5">
