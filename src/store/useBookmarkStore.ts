@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-interface IBookmark {
+export interface IBookmark {
   url: string
   favicon: string
   name: string
