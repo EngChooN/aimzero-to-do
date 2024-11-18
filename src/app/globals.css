@@ -7,6 +7,12 @@
   --foreground: rgb(30 41 59); /* bg-slate-800 */
 }
 
+body {
+  color: var(--foreground);
+  background: var(--background);
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: rgb(30 41 59); /* bg-slate-800 */
@@ -14,15 +20,30 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  /* font-family: Arial, Helvetica, sans-serif; */
-}
-
 @keyframes dots {
   0%, 20% { content: ''; }
   40% { content: '.'; }
   60% { content: '..'; }
   80%, 100% { content: '...'; }
+}
+
+@keyframes pika {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  /* 스크롤바 완전히 숨기기 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
