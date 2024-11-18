@@ -14,7 +14,7 @@ export default function WeatherInfo() {
     }
     fetchWeather()
 
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
     fetchWeather()
     }, 60000)
 
@@ -24,12 +24,12 @@ export default function WeatherInfo() {
   return (
     <article>
       {weatherInfo !== null ? (
-        <div className="flex items-center">
+        <div className="flex items-center pr-4 rounded-xl hover:bg-slate-50/20 cursor-pointer">
           <Image 
             src={`http://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}@2x.png`}
             alt={weatherInfo.weather[0].description}
-            width={56}
-            height={56}
+            width={48}
+            height={48}
           />
           <p className="mr-2">{weatherInfo.name}</p>
           <p>{Math.round(weatherInfo.main.temp)}°C</p>
