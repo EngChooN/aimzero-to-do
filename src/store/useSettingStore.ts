@@ -1,14 +1,47 @@
 import { create } from "zustand"
 
-export const useDateTimeStore = create()((set) => ({
+interface IDateTimeSetting {
+  isDate: boolean
+  isTime: boolean
+  isWeekDay: boolean
+}
+
+interface IDateTimeStore {
+  dateTimeSetting: IDateTimeSetting
+  updateDateTimeSetting: (setting: Partial<IDateTimeSetting>) => void
+}
+
+export const useDateTimeStore = create<IDateTimeStore>()((set) => ({
   dateTimeSetting: {
-    isDateTime: true,
     isDate: true,
     isTime: true,
+    isWeekDay: true,
   },
-  // 개별 설정을 업데이트하는 함수
   updateDateTimeSetting: (setting) =>
     set((state) => ({
       dateTimeSetting: { ...state.dateTimeSetting, ...setting }
+    })),
+}))
+
+interface IWeatherSetting {
+  isIcon: boolean
+  isLocation: boolean
+  isTemp: boolean
+}
+
+interface IWeatherStore {
+  weatherSetting: IWeatherSetting
+  updateWeatherSetting: (setting: Partial<IWeatherSetting>) => void
+}
+
+export const useWeatherStore = create<IWeatherStore>()((set) => ({
+  weatherSetting: {
+    isIcon: true,
+    isLocation: true,
+    isTemp: true,
+  },
+  updateWeatherSetting: (setting) =>
+    set((state) => ({
+      weatherSetting: { ...state.weatherSetting, ...setting }
     })),
 }))
