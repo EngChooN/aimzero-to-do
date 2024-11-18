@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react"
 
 interface IDateInfo {
-  year: number
-  month: number
-  day: number
-  hour: number
-  minute: number
+  year: string
+  month: string
+  day: string
+  hour: string
+  minute: string
 }
 
 export default function DateInfo() {
@@ -18,11 +18,11 @@ export default function DateInfo() {
       const date = new Date()
 
       setDateInfo({
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        day: date.getDate(),
-        hour: date.getHours(),
-        minute: date.getMinutes()
+        year: String(date.getFullYear()),
+        month: String(date.getMonth() + 1).padStart(2, '0'),
+        day: String(date.getDate()).padStart(2, '0'),
+        hour: String(date.getHours()).padStart(2, '0'),
+        minute: String(date.getMinutes()).padStart(2, '0')
       })
     }, 1000)
 
@@ -30,7 +30,7 @@ export default function DateInfo() {
   }, [])
 
   return (
-    <article className="flex items-center text-lg font-light">
+    <article className="flex items-center text-lg">
       <p>{dateInfo?.year}.</p>
       <p className="mr-2">{dateInfo?.month}.{dateInfo?.day}</p>
       <p>{dateInfo?.hour}:{dateInfo?.minute}</p>
