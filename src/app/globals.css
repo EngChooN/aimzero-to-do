@@ -56,6 +56,15 @@ body {
   }
 }
 
+@keyframes pop-bottom {
+  0% {
+    transform: translateY(172px)
+  } 
+  100% {
+    transform: translateY(0)
+  }
+}
+
 @layer utilities {
   /* 스크롤바 완전히 숨기기 */
   .no-scrollbar::-webkit-scrollbar {
