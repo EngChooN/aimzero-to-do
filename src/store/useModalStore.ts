@@ -1,7 +1,8 @@
 import { create } from "zustand"
 
 interface IModalConfig<T extends React.ComponentType = React.ComponentType> {
-  component: unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: any
   props?: React.ComponentProps<T>
 }
 
