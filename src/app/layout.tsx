@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 // import localFont from "next/font/local"
 import "./globals.css"
 import Header from "@/components/layout/Header/Header"
+import ModalProvider from "@/components/provider/ModalProvider";
 
 
 // const geistSans = localFont({
@@ -31,10 +32,12 @@ export default function RootLayout({
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div id="modal"></div>
-        <Header />
-        <div className="flex flex-col items-center w-screen h-full">
-          {children}
-        </div>
+        <ModalProvider>
+          <Header />
+          <div className="flex flex-col items-center w-screen h-full">
+            {children}
+          </div>
+        </ModalProvider>    
       </body>
     </html>
   );

@@ -1,31 +1,44 @@
-import { IBookmark, useBookmarkStore } from "@/store/useBookmarkStore"
+import { useBookmarkStore } from "@/store/useBookmarkStore"
 // import { IoEarth } from "react-icons/io5"
-import { IoAdd } from "react-icons/io5"
+import { IoFolderOutline } from "react-icons/io5"
+import AddBookmark from "./AddBookmark"
+import { useState } from "react"
+import BookmarkGroup from "./BookmarkGroup"
 
 export default function Bookmark() {
-  const { bookmark, addBookmark } = useBookmarkStore()
-  
-  const handleAddBookmark = (): void => {
-    const bookmarkObj: IBookmark = {
-      url: 'https://www.naver.com/',
-      favicon: 'https://www.naver.com/favicon.ico',
-      name: '네이버',
-    }
-    addBookmark(bookmarkObj)
-  }
+  const [isGroup, setIsGroup] = useState(false)
+  const { bookmarkItem } = useBookmarkStore()
 
-  return(
+  return (
     <section className="grid grid-cols-4 gap-6">
-      {bookmark.length < 8 && (
-        <div className="size-12 flex justify-center items-center cursor-pointer rounded-xl hover:bg-slate-50/20">
-          <IoAdd onClick={handleAddBookmark} className="text-2xl" />
-        </div>  
+      {bookmarkItem.length < 8 && (
+        <AddBookmark addType="bookmark" />
       )}
-      {bookmark.map((el, index) => (
-        <div className="flex flex-col items-center justify-center bg-slate-50/20 hover:bg-slate-300/20 size-12 rounded-xl cursor-pointer" key={index} onClick={() => window.open(el.url)}>
-          <img src={el.favicon} className="size-6" />
-          {/* <p className="mt-[3px] text-[10px]">{el.name}</p> */}
-        </div>
+      {bookmarkItem.map((bookmark) => (
+        bookmark.type === 'bookmark' ? (
+          <div className="m-4 flex flex-col items-center">
+            <div className="flex flex-col items-center justify-center bg-slate-50/20 hover:bg-slate-300/20 size-12 rounded-xl cursor-pointer overflow-hidden"
+              onClick={() => window.open(bookmark.url)}
+            >
+              <img src={bookmark.favicon} className="size-full" />
+            </div>
+            <p className="mt-[7px] text-[12px]">{bookmark.name}</p>
+          </div>
+        ) : (
+          <>
+            <div className="m-4 flex flex-col items-center">
+              <div className="flex flex-col items-center justify-center bg-slate-50/20 hover:bg-slate-300/20 size-12 rounded-xl cursor-pointer overflow-hidden"
+                onClick={() => setIsGroup(true)}
+                >
+                  <IoFolderOutline className="text-2xl" />
+              </div>
+              <p className="mt-[7px] text-[12px]">{bookmark.name}</p>
+              {isGroup && (
+                <BookmarkGroup onClose={() => setIsGroup(false)} group={bookmark} />  
+              )}  
+            </div>
+          </>
+        )
       ))}
     </section>
   )

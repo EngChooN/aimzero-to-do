@@ -7,10 +7,10 @@ export const useOutSideClick = (ref: RefObject<HTMLElement>, outSideFunc: () => 
         outSideFunc()
       }
     }
-    window.addEventListener('mousedown', outSideClick)
+    document.addEventListener('click', outSideClick)
 
     return () => {
-      window.removeEventListener('mousedown', outSideClick)
+      document.removeEventListener('click', outSideClick)
     }
   }, [ref, outSideFunc])
 }

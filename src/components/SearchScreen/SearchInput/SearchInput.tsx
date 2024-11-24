@@ -62,8 +62,8 @@ export default function SearchInput() {
         />
       )}
       {searchHistory.length > 0 && isFocusSearchBar === true ? (
-        <ul className="absolute top-0 left-0 w-full pt-14 pb-2 backdrop-blur-xl bg-slate-200/70 text-slate-700
-          shadow-md rounded-[28px] overflow-hidden">
+        <ul className="transition-all duration-500 ease-in-out absolute top-0 left-0 w-full pt-14 pb-2 backdrop-blur-xl bg-slate-200/70 text-slate-700
+          shadow-md rounded-[28px] overflow-hidden animate-[fade-in_0.2s]">
           {searchHistory.slice(0, 5).map((history, index) => (
             <div key={index} className="relative px-14 hover:bg-slate-200/30">
               <IoTimerOutline className="absolute top-1/3 left-6 text-lg text-slate-700 z-20" />
