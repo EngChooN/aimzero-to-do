@@ -14,9 +14,9 @@ export default function Bookmark() {
       {bookmarkItem.length < 8 && (
         <AddBookmark addType="bookmark" />
       )}
-      {bookmarkItem.map((bookmark) => (
+      {bookmarkItem.map((bookmark, index) => (
         bookmark.type === 'bookmark' ? (
-          <div className="m-4 flex flex-col items-center">
+          <div key={index} className="m-4 flex flex-col items-center">
             <div className="flex flex-col items-center justify-center bg-slate-50/20 hover:bg-slate-300/20 size-12 rounded-xl cursor-pointer overflow-hidden"
               onClick={() => window.open(bookmark.url)}
             >
