@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 interface IModalConfig<T extends React.ComponentType = React.ComponentType> {
-  component: any
+  component: unknown
   props?: React.ComponentProps<T>
 }
 
