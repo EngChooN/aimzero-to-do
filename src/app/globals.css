@@ -58,7 +58,7 @@ body {
 
 @keyframes pop-bottom {
   0% {
-    transform: translateY(172px)
+    transform: translateY(100dvh)
   } 
   100% {
     transform: translateY(0)
