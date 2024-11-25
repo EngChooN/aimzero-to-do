@@ -18,14 +18,27 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
         label: 'Add Bookmark',
         buttonLabel: 'Add',
         buttonAction: handleAddBookmark,
-        child: <AddBookmarkSubmit />,
+        child: <AddBookmarkSubmit addType="bookmark" />,
+      }
+    })
+  }
+
+  const openBookmarkGroupSheetModal = async () => {
+    await new Promise(resolve => setTimeout(resolve, 0))
+    openModal({
+      component: SheetModal,
+      props: {
+        label: 'Add Group',
+        buttonLabel: 'Add',
+        buttonAction: handleAddBookmarkGroup,
+        child: <AddBookmarkSubmit addType="group" />,
       }
     })
   }
 
   const handleAddBookmark = (): void => {
     const { bookmarkForm } = useBookmarkStore.getState()
-    // TODO URL이 아닌경우의 케이스를 고려해야함
+    // TODO URL이 아닌경우의 케이스를 고려해야함, 필드가 없을 때 띄울 모달도 필요
     const bookmarkObjResult: IBookmark = {
       id: uuidv7(),
       url: bookmarkForm.url,
@@ -36,49 +49,21 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
     addBookmark(bookmarkObjResult)
   }
   
-  // TODO 입력받아서 추가하게 만들어야함
   const handleAddBookmarkGroup = (): void => {
-    const bookmarkObj: IBookmarkGroup = {
+    // TODO 필드가 없을 때 띄울 모달 필요
+    const { bookmarkForm } = useBookmarkStore.getState()
+    const bookmarkGroupObjResult: IBookmarkGroup = {
       id: uuidv7(),
-      name: '업무1',
+      name: bookmarkForm.name,
       type: 'group',
-      bookmark: [
-        {
-          id: uuidv7(),
-          url: 'https://www.naver.com/',
-          favicon: 'https://www.naver.com/favicon.ico',
-          name: '네이버',
-          type: 'bookmark'
-        },
-        {
-          id: uuidv7(),
-          url: 'https://www.naver.com/',
-          favicon: 'https://www.naver.com/favicon.ico',
-          name: 'NAVER',
-          type: 'bookmark'
-        },
-        {
-          id: uuidv7(),
-          url: 'https://www.naver.com/',
-          favicon: 'https://www.naver.com/favicon.ico',
-          name: '네이버',
-          type: 'bookmark'
-        },
-        {
-          id: uuidv7(),
-          url: 'https://www.naver.com/',
-          favicon: 'https://www.naver.com/favicon.ico',
-          name: '네이버',
-          type: 'bookmark'
-        }
-      ]
+      bookmark: []
     }
-    addBookmark(bookmarkObj)
+    addBookmark(bookmarkGroupObjResult)
   }
 
   return (
-      <div className="m-4 flex flex-col items-center">
-        <div className="size-12 flex justify-center items-center cursor-pointer rounded-xl bg-slate-50/20 hover:bg-slate-50/30"
+    <div className={`${addType === 'bookmark' && 'm-4'} flex flex-col items-center`}>
+        <div className={`${addType === 'bookmark' ? 'size-12 rounded-xl' : 'size-14 rounded-2xl'} flex justify-center items-center cursor-pointer bg-slate-50/20 hover:bg-slate-50/30`}
           onClick={() => openModal({
             component:  SelectModal,
             props: addType === 'group' 
@@ -86,7 +71,7 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
                   desc: 'Add a new bookmark to your collection.',
                   primaryButton: {
                     label: 'Add Bookmark',
-                    onClick: handleAddBookmark,
+                    onClick: openBookmarkSheetModal,
                   }
                 }
               : {
@@ -97,14 +82,14 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
                   },
                   secondaryButton: {
                     label: 'Add Group',
-                    onClick: handleAddBookmarkGroup
+                    onClick: openBookmarkGroupSheetModal,
                   }
                 },
           })}
         >
-          <IoAdd className="text-2xl" />
+        <IoAdd className={`${addType === 'bookmark' ? 'text-2xl' : 'text-4xl'}`} />
         </div>
-        <p className="mt-[7px] text-[12px]">Add</p>
+        <p className={`${addType === 'bookmark' ? 'mt-[7px] text-[12px]' : 'mt-[4px] text-[13px]' }`}>Add</p>
       </div>
   )
 }

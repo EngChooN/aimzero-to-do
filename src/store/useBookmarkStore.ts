@@ -33,7 +33,7 @@ export const useBookmarkStore = create<IBookmarkStore>()((set) => ({
   bookmarkItem: [],
   bookmarkForm: {
     url: '',
-    name: '',
+    name: '', // bookmark group에서는 name 값만 받는다
   },
   setBookmarkForm: (bookmarkForm: IBookmarkForm) => {
     set((state) => ({
