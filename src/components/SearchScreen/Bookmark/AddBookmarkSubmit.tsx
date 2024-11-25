@@ -1,7 +1,7 @@
 import { useBookmarkStore } from "@/store/useBookmarkStore"
+import { type TAddType } from "@/types"
 
-
-export default function AddBookmarkSubmit({addType} : {addType: 'bookmark' | 'group'}) {
+export default function AddBookmarkSubmit({ addType }: {addType: TAddType}) {
   const { bookmarkForm, setBookmarkForm } = useBookmarkStore()
   return (
     <div className="flex flex-col">

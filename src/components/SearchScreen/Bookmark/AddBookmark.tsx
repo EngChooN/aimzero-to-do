@@ -5,9 +5,11 @@ import { useModalStore } from "@/store/useModalStore"
 import { v7 as uuidv7 } from 'uuid'
 import SheetModal from "@/components/common/Modal/SheetModal"
 import AddBookmarkSubmit from "./AddBookmarkSubmit"
+import { type TAddType } from "@/types"
 
-export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group' }) {
-  const { addBookmark } = useBookmarkStore()
+
+export default function AddBookmark({ addType, groupId }: {addType: TAddType, groupId?: string}) {
+  const { addBookmark, addBookmarkFromGroup } = useBookmarkStore()
   const { openModal } = useModalStore()
 
   const openBookmarkSheetModal = async () => {
@@ -17,8 +19,8 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
       props: {
         label: 'Add Bookmark',
         buttonLabel: 'Add',
-        buttonAction: handleAddBookmark,
-        child: <AddBookmarkSubmit addType="bookmark" />,
+        buttonAction: () => handleAddBookmark(groupId),
+        child: <AddBookmarkSubmit addType={'bookmark'} />,
       }
     })
   }
@@ -36,7 +38,7 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
     })
   }
 
-  const handleAddBookmark = (): void => {
+  const handleAddBookmark = (groupId?: string): void => {
     const { bookmarkForm } = useBookmarkStore.getState()
     // TODO URL이 아닌경우의 케이스를 고려해야함, 필드가 없을 때 띄울 모달도 필요
     const bookmarkObjResult: IBookmark = {
@@ -46,7 +48,12 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
       name: bookmarkForm.name,
       type: 'bookmark'
     }
-    addBookmark(bookmarkObjResult)
+
+    if (groupId) {
+      addBookmarkFromGroup(groupId, bookmarkObjResult)
+    } else {
+      addBookmark(bookmarkObjResult)
+    }
   }
   
   const handleAddBookmarkGroup = (): void => {
@@ -63,29 +70,32 @@ export default function AddBookmark({ addType }: { addType: 'bookmark' | 'group'
 
   return (
     <div className={`${addType === 'bookmark' && 'm-4'} flex flex-col items-center`}>
-        <div className={`${addType === 'bookmark' ? 'size-12 rounded-xl' : 'size-14 rounded-2xl'} flex justify-center items-center cursor-pointer bg-slate-50/20 hover:bg-slate-50/30`}
-          onClick={() => openModal({
-            component:  SelectModal,
-            props: addType === 'group' 
+      <div className={`${addType === 'bookmark' ? 'size-12 rounded-xl' : 'size-14 rounded-2xl'} flex justify-center items-center cursor-pointer bg-slate-50/20 hover:bg-slate-50/30`}
+        onClick={(event) => {
+          event.stopPropagation()
+          openModal({
+            component: SelectModal,
+            props: addType === 'group'
               ? {
-                  desc: 'Add a new bookmark to your collection.',
-                  primaryButton: {
-                    label: 'Add Bookmark',
-                    onClick: openBookmarkSheetModal,
-                  }
+                desc: 'Add a new bookmark to your collection.',
+                primaryButton: {
+                  label: 'Add Bookmark',
+                  onClick: openBookmarkSheetModal,
                 }
+              }
               : {
-                  desc: 'You can add bookmarks or groups. Groups are a collection of bookmarks that provide the ability to display all bookmarks within a group in your browser.',
-                  primaryButton: {
-                    label: 'Add Bookmark',
-                    onClick: openBookmarkSheetModal,
-                  },
-                  secondaryButton: {
-                    label: 'Add Group',
-                    onClick: openBookmarkGroupSheetModal,
-                  }
+                desc: 'You can add bookmarks or groups. Groups are a collection of bookmarks that provide the ability to display all bookmarks within a group in your browser.',
+                primaryButton: {
+                  label: 'Add Bookmark',
+                  onClick: openBookmarkSheetModal,
                 },
-          })}
+                secondaryButton: {
+                  label: 'Add Group',
+                  onClick: openBookmarkGroupSheetModal,
+                }
+              },
+          })
+        }}
         >
         <IoAdd className={`${addType === 'bookmark' ? 'text-2xl' : 'text-4xl'}`} />
         </div>

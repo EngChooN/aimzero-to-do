@@ -27,6 +27,7 @@ interface IBookmarkStore {
   bookmarkForm: IBookmarkForm
   setBookmarkForm: (bookmarkForm: IBookmarkForm) => void
   addBookmark: (bookmark: BookmarkItem) => void
+  addBookmarkFromGroup: (groupId: string, bookmark: BookmarkItem) => void
 }
 
 export const useBookmarkStore = create<IBookmarkStore>()((set) => ({
@@ -48,4 +49,20 @@ export const useBookmarkStore = create<IBookmarkStore>()((set) => ({
     set((state) => ({
       bookmarkItem: [...state.bookmarkItem, bookmarkItem]
     })),
+  addBookmarkFromGroup: (groupId: string, bookmarkItem: BookmarkItem) =>
+    set((state) => {
+      const updatedBookmarkItem = state.bookmarkItem.map((item) => {
+        if (item.type === 'group' && item.id === groupId) {
+          return {
+            ...item,
+            bookmark: [...item.bookmark, bookmarkItem as IBookmark],
+          }
+        }
+        return item;
+      })
+
+      return {
+        bookmarkItem: updatedBookmarkItem,
+      }
+    }),
 }));
