@@ -10,6 +10,8 @@ interface Props {
 export default function BookmarkGroup({ onClose, group }: Props) {
   const groupRef = useRef<HTMLDivElement>(null)
 
+  console.log(group.id)
+
   return (
     <div onClick={onClose} className="p-3 flex-col gap-5 fixed top-0 left-0 size-full backdrop-blur-xl bg-slate-700/50 z-30 flex justify-center items-center animate-[fade-in_0.2s]">
       <h1 className="text-3xl mb-5">{group.name}</h1>
@@ -20,7 +22,7 @@ export default function BookmarkGroup({ onClose, group }: Props) {
             <div className="flex flex-col items-center justify-center bg-slate-50/20 hover:bg-slate-300/20 size-14 rounded-2xl cursor-pointer overflow-hidden"
               onClick={() => window.open(bookmark.url)}
             >
-              <img src={bookmark.favicon} className="size-full" />
+              <img src={bookmark.favicon} className="size-full" alt={bookmark.name} />
             </div>
           <p className="mt-[4px] text-[13px]">{bookmark.name}</p>
           </div>
