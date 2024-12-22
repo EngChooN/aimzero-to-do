@@ -65,6 +65,18 @@ body {
   }
 }
 
+@keyframes shake {
+  0% {
+    transform: rotate(0deg)
+  }
+  50% {
+    transform: rotate(2deg)
+  }
+  100% {
+    transform: rotate(-2deg)
+  }
+}
+
 @layer utilities {
   /* 스크롤바 완전히 숨기기 */
   .no-scrollbar::-webkit-scrollbar {

@@ -2,26 +2,46 @@ import { useBookmarkStore } from "@/store/useBookmarkStore"
 // import { IoEarth } from "react-icons/io5"
 import { IoFolderOutline } from "react-icons/io5"
 import AddBookmark from "./AddBookmark"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import BookmarkGroup from "./BookmarkGroup"
+import { useOutSideClick } from "@/hooks/useOutSideClick"
 
 export default function Bookmark() {
   const [isGroup, setIsGroup] = useState<string | null>(null)
+  const [isEditing, setIsEditing] = useState<boolean>(false)
+  const bookmarkRef = useRef(null)
+  const longPressTimer = useRef<NodeJS.Timeout>()
   const { bookmarkItem } = useBookmarkStore()
 
+  // 에디팅 모드 진입
+  const enterEditingMode = () => {
+    longPressTimer.current = setTimeout(() => {
+      setIsEditing(true)
+    }, 1000)
+  }
+
+  // 에디팅 모드 종료
+  useOutSideClick(bookmarkRef, () => {
+    if(isEditing) setIsEditing(false)
+  })
+
+  console.log(longPressTimer);
   
   // 북마크 리스트 화면 UI (북마크와 그룹이 표시됨)
   return (
-    <section className="grid grid-cols-4 gap-6">
+    <section ref={bookmarkRef} className="grid grid-cols-4 gap-6">
       {bookmarkItem.length < 8 && (
         <AddBookmark addType="bookmark" />
       )}
       {bookmarkItem.map((bookmark) => (
         // bookmark type bookmark
         bookmark.type === 'bookmark' ? (
-          <div key={bookmark.id} className="m-4 flex flex-col items-center">
+          <div key={bookmark.id} className={`${isEditing && 'animate-[shake_0.2s_infinite]'} m-4 flex flex-col items-center`} onMouseDown={enterEditingMode} onMouseUp={() => clearTimeout(longPressTimer.current)} onTouchStart={enterEditingMode} onTouchEnd={() => clearTimeout(longPressTimer.current)}>
             <div className="flex flex-col items-center justify-center bg-slate-50/20 hover:bg-slate-300/20 size-12 rounded-xl cursor-pointer overflow-hidden"
-              onClick={() => window.open(bookmark.url)}
+              onClick={() => {
+                if(isEditing) return
+                window.open(bookmark.url)
+              }}
             >
               <img src={bookmark.favicon} className="size-full" />
             </div>
@@ -29,9 +49,12 @@ export default function Bookmark() {
           </div>
         ) : (
           // bookmark type group    
-          <div key={bookmark.id} className="m-4 flex flex-col items-center">
+            <div key={bookmark.id} className={`${isEditing && 'animate-[shake_0.2s_infinite]'} m-4 flex flex-col items-center`} onMouseDown={enterEditingMode} onMouseUp={() => clearTimeout(longPressTimer.current)} onTouchStart={enterEditingMode} onTouchEnd={() => clearTimeout(longPressTimer.current)}>
             <div className="flex flex-col items-center justify-center bg-slate-50/20 hover:bg-slate-300/20 size-12 rounded-xl cursor-pointer overflow-hidden"
-              onClick={() => setIsGroup(bookmark.id)}
+                onClick={() => {
+                  if(isEditing) return
+                  setIsGroup(bookmark.id)
+                }}
               >
                 <IoFolderOutline className="text-2xl" />
             </div>
