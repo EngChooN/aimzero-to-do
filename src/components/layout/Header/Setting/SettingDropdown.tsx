@@ -55,7 +55,7 @@ export default function SettingDropdown({onClose}: {onClose: () => void}) {
   return (
     <>
       <div className="backdrop-blur-xl fixed top-14 left-0 size-full animate-[fade-in_0.2s]" />
-      <section ref={settingRef} className="absolute top-10 right-0 w-[350px] h-[400px] shadow-md backdrop-blur-xl rounded-3xl bg-slate-100/20 p-3 pt-0 overflow-auto no-scrollbar animate-[fade-in_0.2s]">
+      <section ref={settingRef} className="absolute top-10 right-0 w-[350px] h-[400px] shadow-md backdrop-blur-xl rounded-3xl bg-slate-100/40 p-3 pt-0 overflow-auto no-scrollbar animate-[fade-in_0.2s]">
         <SettingContentWrapper label="Theme">
           {bgColorPalette.map((color, index) => (
               <div className={`flex-shrink-0 size-8 rounded-full flex justify-center items-center mr-3 ${color.color === 'default' ? 'bg-slate-300' : color.color}`} key={index} onClick={() => setBgColor(color.color)} />

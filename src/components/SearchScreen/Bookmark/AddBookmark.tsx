@@ -8,6 +8,7 @@ import AddBookmarkSubmit from "./AddBookmarkSubmit"
 import { type TAddType } from "@/types"
 
 
+// 북마크나 그룹을 추가해주는 버튼 컴포넌트 (모달을 띄워서 정보를 입력 받음)
 export default function AddBookmark({ addType, groupId }: {addType: TAddType, groupId?: string}) {
   const { addBookmark, addBookmarkFromGroup } = useBookmarkStore()
   const { openModal } = useModalStore()

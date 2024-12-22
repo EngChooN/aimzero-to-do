@@ -7,6 +7,7 @@ interface Props {
   group: IBookmarkGroup
 }
 
+// 북마크 그룹 화면 UI (그룹을 눌렀을 때, 표시되는 화면)
 export default function BookmarkGroup({ onClose, group }: Props) {
   const groupRef = useRef<HTMLDivElement>(null)
 
