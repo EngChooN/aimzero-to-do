@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 interface IDateTimeSetting {
   isDate: boolean
@@ -11,17 +12,24 @@ interface IDateTimeStore {
   updateDateTimeSetting: (setting: Partial<IDateTimeSetting>) => void
 }
 
-export const useDateTimeStore = create<IDateTimeStore>()((set) => ({
-  dateTimeSetting: {
-    isDate: true,
-    isTime: true,
-    isWeekDay: true,
-  },
-  updateDateTimeSetting: (setting) =>
-    set((state) => ({
-      dateTimeSetting: { ...state.dateTimeSetting, ...setting }
-    })),
-}))
+export const useDateTimeStore = create<IDateTimeStore>()(
+  persist(
+    (set) => ({
+      dateTimeSetting: {
+        isDate: true,
+        isTime: true,
+        isWeekDay: true,
+      },
+      updateDateTimeSetting: (setting) =>
+        set((state) => ({
+          dateTimeSetting: { ...state.dateTimeSetting, ...setting }
+        })),
+    }),
+    {
+      name: 'date-setting-storage'
+    }
+  )
+)
 
 interface IWeatherSetting {
   isIcon: boolean
@@ -34,14 +42,21 @@ interface IWeatherStore {
   updateWeatherSetting: (setting: Partial<IWeatherSetting>) => void
 }
 
-export const useWeatherStore = create<IWeatherStore>()((set) => ({
-  weatherSetting: {
-    isIcon: true,
-    isLocation: true,
-    isTemp: true,
-  },
-  updateWeatherSetting: (setting) =>
-    set((state) => ({
-      weatherSetting: { ...state.weatherSetting, ...setting }
-    })),
-}))
+export const useWeatherStore = create<IWeatherStore>()(
+  persist(
+    (set) => ({
+      weatherSetting: {
+        isIcon: true,
+        isLocation: true,
+        isTemp: true,
+      },
+      updateWeatherSetting: (setting) =>
+        set((state) => ({
+          weatherSetting: { ...state.weatherSetting, ...setting }
+        })),
+    }),
+    {
+      name: 'weather-setting-storage'
+    }
+  )
+)

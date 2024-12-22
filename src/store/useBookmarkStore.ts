@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { persist } from 'zustand/middleware'
 
 export interface IBookmark {
   id: string
@@ -30,39 +31,44 @@ interface IBookmarkStore {
   addBookmarkFromGroup: (groupId: string, bookmark: BookmarkItem) => void
 }
 
-export const useBookmarkStore = create<IBookmarkStore>()((set) => ({
-  bookmarkItem: [],
-  bookmarkForm: {
-    url: '',
-    name: '', // bookmark group에서는 name 값만 받는다
-  },
-  setBookmarkForm: (bookmarkForm: IBookmarkForm) => {
-    set((state) => ({
+export const useBookmarkStore = create<IBookmarkStore>()(
+  persist(
+    (set) => ({
+      bookmarkItem: [],
       bookmarkForm: {
-        ...state.bookmarkForm,
-        ...bookmarkForm
-      }
-    }))
-  },
-  // 북마크 추가
-  addBookmark: (bookmarkItem: BookmarkItem) =>
-    set((state) => ({
-      bookmarkItem: [...state.bookmarkItem, bookmarkItem]
-    })),
-  addBookmarkFromGroup: (groupId: string, bookmarkItem: BookmarkItem) =>
-    set((state) => {
-      const updatedBookmarkItem = state.bookmarkItem.map((item) => {
-        if (item.type === 'group' && item.id === groupId) {
-          return {
-            ...item,
-            bookmark: [...item.bookmark, bookmarkItem as IBookmark],
+        url: '',
+        name: '', // bookmark group에서는 name 값만 받는다
+      },
+      setBookmarkForm: (bookmarkForm: IBookmarkForm) => {
+        set((state) => ({
+          bookmarkForm: {
+            ...state.bookmarkForm,
+            ...bookmarkForm
           }
-        }
-        return item;
-      })
+        }))
+      },
+      // 북마크 추가
+      addBookmark: (bookmarkItem: BookmarkItem) =>
+        set((state) => ({
+          bookmarkItem: [...state.bookmarkItem, bookmarkItem]
+        })),
+      addBookmarkFromGroup: (groupId: string, bookmarkItem: BookmarkItem) =>
+        set((state) => {
+          const updatedBookmarkItem = state.bookmarkItem.map((item) => {
+            if (item.type === 'group' && item.id === groupId) {
+              return {
+                ...item,
+                bookmark: [...item.bookmark, bookmarkItem as IBookmark],
+              }
+            }
+            return item;
+          })
 
-      return {
-        bookmarkItem: updatedBookmarkItem,
-      }
-    }),
-}));
+          return {
+            bookmarkItem: updatedBookmarkItem,
+          }
+        }),
+    }), {
+    name: 'bookmark-storage'
+  }),
+)
