@@ -29,6 +29,8 @@ interface IBookmarkStore {
   setBookmarkForm: (bookmarkForm: IBookmarkForm) => void
   addBookmark: (bookmark: BookmarkItem) => void
   addBookmarkFromGroup: (groupId: string, bookmark: BookmarkItem) => void
+  deleteBookmark: (bookmarkId: string) => void
+  deleteBookmarkFromGroup: (groupId: string, bookmarkId: string) => void
 }
 
 export const useBookmarkStore = create<IBookmarkStore>()(
@@ -68,6 +70,22 @@ export const useBookmarkStore = create<IBookmarkStore>()(
             bookmarkItem: updatedBookmarkItem,
           }
         }),
+      deleteBookmark: (bookmarkId: string) =>
+        set((state) => ({
+          bookmarkItem: state.bookmarkItem.filter(bookmark => bookmark.id !== bookmarkId)
+        })),
+      deleteBookmarkFromGroup: (groupId: string, bookmarkId: string) =>
+        set((state) => ({
+          bookmarkItem: state.bookmarkItem.map(item => {
+            if (item.id === groupId && item.type === 'group') {
+              return {
+                ...item,
+                bookmark: item.bookmark.filter(b => b.id !== bookmarkId)
+              }
+            }
+            return item
+          })
+        })),
     }), {
     name: 'bookmark-storage'
   }),

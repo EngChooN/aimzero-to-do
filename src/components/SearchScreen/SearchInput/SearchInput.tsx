@@ -44,9 +44,9 @@ export default function SearchInput() {
   
   return (
     <article className="relative w-full flex justify-center" ref={searchAreaRef}>
-      <IoSearchOutline className="absolute top-1/3 left-6 text-lg text-slate-700 z-20" />
+      <IoSearchOutline className="absolute top-1/3 left-6 text-lg text-slate-700 z-30" />
       <input
-        className={`m-[6px] w-full h-12 backdrop-blur-xl rounded-3xl px-12 bg-slate-100/80 text-slate-700 ${!isFocusSearchBar || (isFocusSearchBar && searchHistory.length === 0) ? 'shadow-md' : ''} focus:outline-none z-10`}
+        className={`m-[6px] w-full h-12 backdrop-blur-xl rounded-3xl px-12 bg-slate-100/80 text-slate-700 ${!isFocusSearchBar || (isFocusSearchBar && searchHistory.length === 0) ? 'shadow-md' : ''} focus:outline-none z-20`}
         value={searchValue}
         onChange={(event) => setSearchValue(event.target.value)}
         onCompositionStart={() => setIsComposition(false)}
